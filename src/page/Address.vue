@@ -68,6 +68,5 @@ export default {
   .navbar{
     background-color: darkorange;
     color: cornsilk;
-    color: #fff
   }
 </style>

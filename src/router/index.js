@@ -8,6 +8,7 @@ import Cart from '@/page/Cart'
 import Me from '@/page/Me'
 import Address from '@/page/Address'
 import EditAddress from '@/page/EditAddress'
+import GoodsDetail from '@/page/GoodsDetail'
 
 import Login from '@/page/Login'
 import Signup from '@/page/Signup'
@@ -39,6 +40,11 @@ const router = new Router({
       component: EditAddress,
       meta: { requiresAuth: true },
       props: true
+    },
+    {
+      path: '/gooodsdetail',
+      name: 'GoodsDetail',
+      component: GoodsDetail
     },
     {
       path: '/',

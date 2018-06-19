@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Swipe style="height: 200px;text-align: center">
+    <Swipe style="height: 200px;text-align: center" :autoplay="3000">
       <swipe-item v-for="(item, index) in banners" :key="index">
         <img style="height: 200px" v-lazy="item.personalityImages" />
       </swipe-item>
