@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card" @click="goToGoodsDetail">
       <img :src="imgUrl" :width="width+'%'"/>
       <p>{{ title }}</p>
     </div>
@@ -11,7 +11,13 @@ export default {
   props: {
     imgUrl: String,
     title: String,
-    width: String
+    width: String,
+    goodsId: String
+  },
+  methods: {
+    goToGoodsDetail () {
+      this.$router.push({name: 'GoodsDetail', params: {goodsId: this.goodsId}})
+    }
   }
 }
 </script>

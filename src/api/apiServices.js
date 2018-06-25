@@ -4,6 +4,10 @@ export const getHomeBanners = function () {
   return instance.get('/buyer/home/banners')
 }
 
+export const getHomeProducts = function () {
+  return instance.get('/buyer/home/other')
+}
+
 export const getMenuData = function (id) {
   return instance.get('/buyer/category/' + id)
 }
@@ -42,4 +46,8 @@ export const deleteAddress = function (addressId) {
 
 export const findAddressById = function (addressId) {
   return instance.get('/buyer/address/' + addressId)
+}
+
+export const findBoodsById = function (goodsId) {
+  return instance.get('/buyer/product/' + goodsId)
 }

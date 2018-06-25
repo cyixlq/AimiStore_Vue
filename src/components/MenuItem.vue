@@ -7,8 +7,9 @@
             :key="'col'+index"
             :span="12">
             <goods-item
-              :imgUrl="item.personalityImages"
+              :imgUrl="item.recommendImage"
               :title="item.name"
+              :goodsId="item.id"
               width="50"/>
           </Col>
         </row>

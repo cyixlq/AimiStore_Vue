@@ -4,6 +4,6 @@ const state = {
 
 const getters = {
   indexActive (state, getters) {
-    return state.token
+    return state.active
   }
 }

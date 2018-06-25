@@ -2,15 +2,16 @@
   <div>
     <Swipe style="height: 200px;text-align: center" :autoplay="3000">
       <swipe-item v-for="(item, index) in banners" :key="index">
-        <img style="height: 200px" v-lazy="item.personalityImages" />
+        <img style="height: 200px" v-lazy="item.recommendImage" />
       </swipe-item>
     </Swipe>
     <Row>
-      <Col v-for="(item,index) in goods" :key="index" :span="item.sort === 1 ? 24 : 12">
+      <Col v-for="(item,index) in goods" :key="index" :span="item.recommendCoed === '1' ? 24 : 12">
         <goods-item
-          :imgUrl="item.imageUrl"
+          :imgUrl="item.recommendImage"
           :title="item.name"
-          :width="item.sort === 1 ? '100' : '50'"></goods-item>
+          :goodsId="item.productId"
+          :width="item.recommendCoed === '1' ? '100' : '50'"></goods-item>
       </Col>
     </Row>
   </div>
@@ -19,7 +20,7 @@
 <script>
 import { Swipe, SwipeItem, Row, Col } from 'vant'
 import GoodsItem from '@/components/GoodsItem'
-import { getHomeBanners } from '../api/apiServices.js'
+import { getHomeBanners, getHomeProducts } from '../api/apiServices.js'
 export default {
   name: 'Home',
   data () {
@@ -38,6 +39,9 @@ export default {
   created () {
     getHomeBanners().then((response) => {
       this.banners = response.data
+    })
+    getHomeProducts().then(response => {
+      this.goods = response.data
     })
   }
 }

@@ -42,9 +42,10 @@ const router = new Router({
       props: true
     },
     {
-      path: '/gooodsdetail',
+      path: '/gooodsdetail/:goodsId',
       name: 'GoodsDetail',
-      component: GoodsDetail
+      component: GoodsDetail,
+      props: true
     },
     {
       path: '/',
@@ -64,7 +65,7 @@ const router = new Router({
           path: '/cart',
           name: 'Cart',
           component: Cart,
-          meta: { requiresAuth: true }
+          meta: { requiresAuth: false }
         },
         {
           path: '/me',
