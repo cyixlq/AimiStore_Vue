@@ -5,7 +5,7 @@
       <tabbar v-model="active">
         <tabbar-item icon="shop" to="/">首页</tabbar-item>
         <tabbar-item icon="records" to="/menu">分类</tabbar-item>
-        <tabbar-item icon="cart" info="5" to="/cart">购物车</tabbar-item>
+        <tabbar-item icon="cart" :info="cartNum" to="/cart">购物车</tabbar-item>
         <tabbar-item icon="contact" to="/me">我的</tabbar-item>
       </tabbar>
     </div>
@@ -13,6 +13,8 @@
 
 <script>
 import { NavBar, Tabbar, TabbarItem } from 'vant'
+import { mapGetters } from 'vuex'
+import cartData from '../assets/cartData'
 export default {
   name: 'Index',
   data () {
@@ -34,7 +36,10 @@ export default {
         default:
           break
       }
-    }
+    },
+    ...mapGetters({
+      cartNum: 'cart/getCartCount'
+    })
   },
   components: {
     NavBar,
@@ -59,6 +64,7 @@ export default {
       default:
         break
     }
+    this.$store.dispatch('cart/pushAllCart', cartData)
   }
 }
 </script>

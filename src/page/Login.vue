@@ -54,6 +54,7 @@ export default {
       this.loading = true
       this.$store.dispatch('user/signInAction', this.userInfo).then(res => {
         this.loading = false
+        this.$store.dispatch('cart/pushAllCart', res.data.username)
         Toast('登录成功！')
         this.$router.back()
       }).catch(error => {

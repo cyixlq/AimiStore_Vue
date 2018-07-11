@@ -16,6 +16,8 @@
        <span style="font-size: 15px;font-style: inherit">{{ goodsSubTitle }}</span>
      </div>
      <p style="font-size: 20px;padding-left: 8px;margin: 3px 0;"><span style="color: red">价格:</span> {{ price }}</p>
+     <p style="font-size: 20px;margin: 6px 8px;font-weight: bold;text-align: center">商品详情</p>
+     <img v-for="(item, index) in goods.detail" :src="item" :key="'detail' + index" width="100%"/>
      <sku
        v-model="showCustomAction"
        :sku="sku"
@@ -32,9 +34,10 @@
 </template>
 
 <script>
-import { NavBar, Icon, Swipe, SwipeItem, GoodsAction, GoodsActionBigBtn, GoodsActionMiniBtn, Sku, Toast, ImagePreview } from 'vant'
+import { NavBar, Icon, Swipe, SwipeItem, GoodsAction,
+  GoodsActionBigBtn, GoodsActionMiniBtn, Sku, Toast, ImagePreview } from 'vant'
 import { findBoodsById } from '@/api/apiServices'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'GoodsDetail',
   props: {
@@ -57,7 +60,6 @@ export default {
       goodsSubTitle: '',
       goodsTitle: '',
       price: '',
-      selectSkuId: null,
       showCustomAction: false,
       sku: {},
       goods: {}
@@ -77,13 +79,53 @@ export default {
 
     },
     onClickSkuAddCart (skuData) {
-
+      if (this.token) {
+        let data = {
+          goodsId: this.goodsId,
+          username: this.name,
+          cartInfo: {
+            number: skuData.selectedNum,
+            productSpecVo: {
+              id: skuData.selectedSkuComb.id,
+              image: this.skuImage(skuData.selectedSkuComb.id),
+              name: '2+128G',
+              price: skuData.selectedSkuComb.price / 100
+            },
+            productTitle: this.goodsSubTitle
+          }
+        }
+        this.$store.dispatch('cart/addCartItem', data).then(msg => {
+          Toast(msg)
+        }).catch(err => {
+          Toast(err.message)
+        })
+      } else {
+        this.$router.push('/login')
+      }
     },
     goBack () {
       this.$router.back()
     },
     previewImg (index) {
       ImagePreview(this.subImgs, index)
+    },
+    skuImage (skuId) {
+      const productSpec = this.sku.tree[0].v
+      for (let i in productSpec) {
+        if (productSpec[i].id === skuId) {
+          return productSpec[i].imgUrl
+        }
+      }
+      return ''
+    },
+    skuName (skuId) {
+      const productSpec = this.sku.tree[0].v
+      for (let i in productSpec) {
+        if (productSpec[i].id === skuId) {
+          return productSpec[i].name
+        }
+      }
+      return ''
     }
   },
   created () {
@@ -91,7 +133,7 @@ export default {
       const data = response.data
       let productSpecs = []
       let list = []
-      let stockNum = 0
+      let stockNum = 0 // 总库存
       let minPrice = data.productSpecs[0].price
       let maxPrice = minPrice
       for (let i in data.productSpecs) {
@@ -133,12 +175,19 @@ export default {
         // 商品标题
         title: data.name,
         // 默认商品 sku 缩略图
-        picture: data.productSpecs[0].image
+        picture: data.productSpecs[0].image,
+        detail: data.detail
       }
       this.goodsSubTitle = data.subtitle
       this.goodsTitle = data.name
       this.price = minPrice + '~' + maxPrice
       this.subImgs = data.subImage
+    })
+  },
+  computed: {
+    ...mapGetters({
+      token: 'user/userToken',
+      name: 'user/userName'
     })
   }
 }

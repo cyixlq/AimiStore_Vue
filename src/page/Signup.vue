@@ -51,7 +51,7 @@ export default {
       loading: false,
       nameErrMsg: '',
       phoneErrMsg: '',
-      isPassRe: true,
+      isPassRe: true, // 校验用户名手机号码是否重复，true代表重复了
       userInfo: {
         username: '',
         password: '',
@@ -116,6 +116,7 @@ export default {
           this.isPassRe = false
         } else {
           this.isPassRe = true
+          this.phoneErrMsg = ''
         }
       })
     },
@@ -126,6 +127,7 @@ export default {
           this.isPassRe = false
         } else {
           this.isPassRe = true
+          this.nameErrMsg = ''
         }
       })
     }

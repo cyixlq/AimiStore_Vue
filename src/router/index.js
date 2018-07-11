@@ -65,7 +65,7 @@ const router = new Router({
           path: '/cart',
           name: 'Cart',
           component: Cart,
-          meta: { requiresAuth: false }
+          meta: { requiresAuth: true }
         },
         {
           path: '/me',
