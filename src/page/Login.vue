@@ -9,8 +9,7 @@
         v-model="userInfo.username"
         left-icon="contact"
         placeholder="请输入用户名/邮箱/手机号"
-        required
-      />
+        required/>
       <field
         v-model="userInfo.password"
         type="password"
@@ -27,6 +26,7 @@
 
 <script>
 import {Field, Button, Icon, NavBar, CellGroup, Toast} from 'vant'
+
 export default {
   name: 'Login',
   data () {
@@ -53,10 +53,11 @@ export default {
     signIn () {
       this.loading = true
       this.$store.dispatch('user/signInAction', this.userInfo).then(res => {
-        this.loading = false
-        this.$store.dispatch('cart/pushAllCart', res.data.username)
-        Toast('登录成功！')
-        this.$router.back()
+        this.$store.dispatch('cart/pushAllCart', res.data.username).then(res => {
+          this.loading = false
+          Toast('登录成功！')
+          this.$router.back()
+        })
       }).catch(error => {
         Toast(error)
         this.loading = false

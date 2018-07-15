@@ -1,6 +1,8 @@
 <template>
     <div>
-      <nav-bar :title="title" style="background-color: darkorange;color: cornsilk" :fixed="true"/>
+      <NavBar :title="title" style="background-color: darkorange;color: cornsilk" :fixed="true" @click-right="toSearchPage">
+        <icon name="search" slot="right" style="color: #fff"/>
+      </NavBar>
       <router-view style="margin-top:46px;margin-bottom: 50px;"/>
       <tabbar v-model="active">
         <tabbar-item icon="shop" to="/">首页</tabbar-item>
@@ -12,19 +14,13 @@
 </template>
 
 <script>
-import { NavBar, Tabbar, TabbarItem } from 'vant'
+import { NavBar, Tabbar, TabbarItem, Icon } from 'vant'
 import { mapGetters } from 'vuex'
-import cartData from '../assets/cartData'
 export default {
   name: 'Index',
-  data () {
-    return {
-      active: 0
-    }
-  },
   computed: {
     title () {
-      switch (this.active) {
+      switch (this.$store.state.active.active) {
         case 0:
           return '首页'
         case 1:
@@ -39,32 +35,25 @@ export default {
     },
     ...mapGetters({
       cartNum: 'cart/getCartCount'
-    })
+    }),
+    active: {
+      get: function () {
+        return this.$store.state.active.active
+      },
+      set: function () {
+      }
+    }
   },
   components: {
     NavBar,
     Tabbar,
-    TabbarItem
+    TabbarItem,
+    Icon
   },
-  created () {
-    const path = this.$route.path
-    switch (path) {
-      case '/':
-        this.active = 0
-        break
-      case '/menu':
-        this.active = 1
-        break
-      case '/cart':
-        this.active = 2
-        break
-      case '/me':
-        this.active = 3
-        break
-      default:
-        break
+  methods: {
+    toSearchPage () {
+      this.$router.push('/search')
     }
-    this.$store.dispatch('cart/pushAllCart', cartData)
   }
 }
 </script>

@@ -88,7 +88,7 @@ export default {
             productSpecVo: {
               id: skuData.selectedSkuComb.id,
               image: this.skuImage(skuData.selectedSkuComb.id),
-              name: '2+128G',
+              name: this.skuName(skuData.selectedSkuComb.id),
               price: skuData.selectedSkuComb.price / 100
             },
             productTitle: this.goodsSubTitle

@@ -47,11 +47,10 @@ const actions = {
    */
   addCartItem ({ commit, state }, data) {
     return new Promise((resolve, reject) => {
-      let item = {
-        productSpecId: data.cartInfo.productSpecVo.id,
-        count: data.cartInfo.number
-      }
-      addCart(data.username, item).then(res => {
+      let itemData = new FormData()
+      itemData.append('productSpecId', data.cartInfo.productSpecVo.id)
+      itemData.append('count', data.cartInfo.number)
+      addCart(data.username, itemData).then(res => {
         if (res.status === 200) {
           resolve('添加成功，在购物车等亲哦！')
           commit('commitCartItem', data)
@@ -97,7 +96,13 @@ const mutations = {
     var isFind = false
     for (let i in state.cart) {
       if (state.cart[i].productId === data.goodsId) {
-        state.cart[i].cartBos.push(data.cartInfo)
+        for (let j in state.cart[i].cartBos) {
+          if (state.cart[i].cartBos[j].productSpecVo.id === data.cartInfo.productSpecVo.id) {
+            state.cart[i].cartBos[j].number += data.cartInfo.number
+          } else {
+            state.cart[i].cartBos.push(data.cartInfo)
+          }
+        }
         isFind = true
       }
     }

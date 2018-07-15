@@ -5,7 +5,7 @@
         <menu-item
           v-for="(menuItem, menuIndex) in menuItems"
           :sub="menuItem.name"
-          :list="menuItem.productVos"
+          :list="menuItem.recommendVos"
           :key="'menuItem'+menuIndex"/>
       </tabs>
     </div>

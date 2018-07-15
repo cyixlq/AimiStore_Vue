@@ -8,8 +8,8 @@
             :span="12">
             <goods-item
               :imgUrl="item.recommendImage"
-              :title="item.name"
-              :goodsId="item.id"
+              :title="item.recommendTitle"
+              :goodsId="item.productId"
               width="50"/>
           </Col>
         </row>

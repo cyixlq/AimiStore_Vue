@@ -12,6 +12,7 @@ import GoodsDetail from '@/page/GoodsDetail'
 
 import Login from '@/page/Login'
 import Signup from '@/page/Signup'
+import SearchPg from '../page/SearchPg'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ const router = new Router({
       path: '/signup',
       name: 'Signup',
       component: Signup
+    },
+    {
+      path: '/search',
+      name: 'SearchPg',
+      component: SearchPg
     },
     {
       path: '/address/:title',
@@ -93,6 +99,27 @@ router.beforeEach((to, from, next) => {
   } else {
     next() // 确保一定要调用 next()
   }
+})
+
+router.afterEach((to, from) => {
+  let index = 0
+  switch (to.path) {
+    case '/':
+      index = 0
+      break
+    case '/menu':
+      index = 1
+      break
+    case '/cart':
+      index = 2
+      break
+    case '/me':
+      index = 3
+      break
+    default:
+      break
+  }
+  store.dispatch('active/changeActive', index)
 })
 
 export default router
