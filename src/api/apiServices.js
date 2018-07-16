@@ -77,3 +77,16 @@ export const getShoppingCart = function (username) {
 export const addCart = function (username, skuInfo) {
   return instance.post('/buyer/cart/' + username, skuInfo)
 }
+
+/*
+  搜索相关接口
+ */
+
+export function searchGoods (page, name) {
+  return instance.get('/buyer/product', {
+    params: {
+      page,
+      name
+    }
+  })
+}
